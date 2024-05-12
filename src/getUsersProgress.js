@@ -16,6 +16,18 @@ module.exports.getUsersProgress = async (event) => {
         const courseIdQuery = event.queryStringParameters?.courseId;
         const courseName = courseIdQuery ? courses[courseIdQuery] : null;
 
+        // 존재하지 않는 강의 ID인 경우 사용 가능한 강의 ID 목록을 반환
+        if (courseIdQuery && !courseName) {
+            return {
+                statusCode: 400,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    error: "Invalid Course ID",
+                    availableCourseIds: Object.entries(courses).map(([id, name]) => ({ id, name }))
+                })
+            };
+        }
+
         // reqres.in에서 사용자 목록을 가져옴
         const response = await axios.get('https://reqres.in/api/users');
 
