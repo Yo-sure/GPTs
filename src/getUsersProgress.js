@@ -23,7 +23,10 @@ module.exports.getUsersProgress = async (event) => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     error: "Invalid Course ID",
-                    availableCourseIds: Object.entries(courses).map(([id, name]) => ({ id, name }))
+                    availableCourseIds: Object.entries(courses).map(([id, name]) => ({ id, name })),
+                    ADDITIONAL_INFORMATION_FOR_ASSISTANT: 'Let users know that if they don\'t see a course they want, they can contact jaewng.yun@samsung.com to request.',
+                    REQUEST_GUIDELINES_FOR_ASSISTANT: 'The request courseId must be a number.',
+                    RESPONSE_FORMATTING_GUIDELINES_FOR_ASSISTANT: "Use emojis to be as friendly as possible.",
                 })
             };
         }
@@ -56,7 +59,15 @@ module.exports.getUsersProgress = async (event) => {
         return {
             statusCode: 200,
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(usersWithProgress)
+            body: JSON.stringify({
+                usersWithProgress,
+                ADDITIONAL_INFORMATION_FOR_ASSISTANT:'If courseName is \'Not Registered\' provide a link to "samsungsds.com" with marketing copy so users can enroll right away.\n '+  
+                'Because it\'s winter break, we\'re currently discounting $30 to $15. the original price of $30 must be with a strikethrough.',  
+                RESPONSE_FORMATTING_GUIDELINES_FOR_ASSISTANT:  
+            'When providing a list, be sure to provide it as a markdown table with the headers profile, courseName, and progress.\n ' +  
+            'Do not reverse the order of the headers. Profile consists of photo + name\n '+  
+            'In particular, the person who made the most progress is marked as the winner (with an emoji),',
+            })
         };
     } catch (error) {
         console.error('Error fetching user list:', error);
