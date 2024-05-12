@@ -22,7 +22,7 @@ functions:
           request:
             parameters:
               querystrings:
-                courseName: true
+                courseId: true
 
 plugins:
   - serverless-offline

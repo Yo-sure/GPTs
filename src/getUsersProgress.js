@@ -1,10 +1,20 @@
+
+
+// src/getUsersProgress.js
 const axios = require('axios');
+
+// 코스 매핑 정보
+const courses = {
+    101: 'LLM application',
+    102: 'ChatGPT 활용하기'
+};
 
 // AWS Lambda에서 event 객체를 사용하여 HTTP 요청을 처리
 module.exports.getUsersProgress = async (event) => {
     try {
-        // API Gateway를 통해 전달된 쿼리스트링 파라미터를 가져옴
-        const courseName = event.queryStringParameters?.courseName;
+        // API Gateway를 통해 전달된 쿼리스트링 파라미터에서 courseId를 가져옴
+        const courseIdQuery = event.queryStringParameters?.courseId;
+        const courseName = courseIdQuery ? courses[courseIdQuery] : null;
 
         // reqres.in에서 사용자 목록을 가져옴
         const response = await axios.get('https://reqres.in/api/users');
