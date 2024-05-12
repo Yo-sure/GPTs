@@ -2,7 +2,7 @@ service: my-service
 
 provider:
   name: aws
-  runtime: nodejs18.x
+  runtime: nodejs18.x  # 최신 Node.js 버전으로 설정
 
 functions:
   hello:
@@ -11,6 +11,13 @@ functions:
       - http:
           path: hello
           method: get
-          
+
+  getUsersProgress:
+    handler: src/getUsersProgress.getUsersProgress
+    events:
+      - http:
+          path: progress
+          method: get
+
 plugins:
   - serverless-offline
