@@ -1,5 +1,3 @@
-
-
 // src/getUsersProgress.js
 const axios = require('axios');
 
